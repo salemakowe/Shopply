@@ -11,23 +11,30 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   cupertino_icons: ^1.0.6
+
+  google_fonts: ^6.2.1 #App fonts
+
+  flutter_native_splash: ^2.4.0   #For Starting the app
+
+  flutter_launcher_icons: ^0.13.1 #icon of the app on device
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 
 flutter:
 
   uses-material-design: true
 
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/
+    - assets/img/
+    - assets/icons/
 
   # fonts:
   #   - family: Schyler
@@ -41,3 +48,19 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+
+flutter_native_splash:
+  image: assets/img/logoWhite.png
+  color: "#40BFFF"
+  background_image: assets/img/backgroundSplash.png
+  background_image_ios: assets/img/backgroundSplash.png
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/img/logoWhite.png"
+  min_sdk_android: 21
+  windows:
+    generate: true
+  macos:
+      generate: true
