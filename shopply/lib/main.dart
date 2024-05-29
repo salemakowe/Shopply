@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
+// import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:shopply/login.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.remove();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // FlutterNativeSplash.remove();
   runApp(const MyApp());
 }
 

@@ -25,27 +25,30 @@ class _LoginPageState extends State<LoginPage> {
     Sizes().heightSizeCalc(context);
     Sizes().widthSizeCalc(context);
     return SafeArea(
-      child: Scaffold(
-        body: MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            padding: const EdgeInsets.all(0),
-            textScaler: TextScaler.linear(textScale),
-          ),
-          child: Padding(
-            padding: internalPadding(context),
-            child: Form(
-              key: formkey,
-              child: SingleChildScrollView(
-                child: Center(
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        MyAssets.logoBlue,
-                        width: Sizes.w70,
-                      ),
-                      customDivider(height: Sizes.h20),
-                      Text("Welcome Back")
-                    ],
+      child: PopScope(
+        canPop: true,
+        child: Scaffold(
+          body: MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              padding: const EdgeInsets.all(0),
+              textScaler: TextScaler.linear(textScale),
+            ),
+            child: Padding(
+              padding: internalPadding(context),
+              child: Form(
+                key: formkey,
+                child: SingleChildScrollView(
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          MyAssets.logoBlue,
+                          width: Sizes.w70,
+                        ),
+                        customDivider(height: Sizes.h20),
+                        Text("Welcome Back")
+                      ],
+                    ),
                   ),
                 ),
               ),
