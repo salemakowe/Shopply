@@ -20,7 +20,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool passwordvisible = true;
+  bool _passwordvisible = true;
   IconData visibilityIcon = Icons.visibility;
   final formkey = GlobalKey<FormState>();
 
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                         controller: emailController,
                         decoration: MyDecor().form(
                           context: context,
-                          hinttext: "Your Email",
+                          hinttext: "Your Email / Username",
                           prefixicon: const Icon(
                             Icons.mail_outline,
                             color: Colors.grey,
@@ -87,13 +87,26 @@ class _LoginPageState extends State<LoginPage> {
 
                       //Password
                       TextFormField(
-                        controller: emailController,
+                        controller: passwordController,
+                        obscureText: _passwordvisible,
                         decoration: MyDecor().form(
                           context: context,
                           hinttext: "Password",
                           prefixicon: const Icon(
                             Icons.lock_outline,
                             color: Colors.grey,
+                          ),
+                          suffixicon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _passwordvisible = !_passwordvisible;
+                              });
+                            },
+                            child: Icon(
+                              _passwordvisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
                           ),
                         ),
                       ),

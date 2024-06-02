@@ -86,19 +86,20 @@ class MyDecor {
     );
   }
 
-  form(
-      {required BuildContext context,
-      Widget? prefixicon,
-      String? prefixText,
-      Widget? suffixicon,
-      String? hinttext,
-      String? labeltext,
-      Color? fillColor,
-      Color? borderColor,
-      TextStyle? hintStyle,
-      bool? usetoppadding,
-      bool? disableBorder,
-      bool useHint = true}) {
+  form({
+    required BuildContext context,
+    Widget? prefixicon,
+    String? prefixText,
+    Widget? suffixicon,
+    String? hinttext,
+    String? labeltext,
+    Color? fillColor,
+    Color? borderColor,
+    TextStyle? hintStyle,
+    bool? usetoppadding,
+    bool? disableBorder,
+    bool useHint = false,
+  }) {
     Sizes().heightSizeCalc(context);
     Sizes().widthSizeCalc(context);
     return InputDecoration(
