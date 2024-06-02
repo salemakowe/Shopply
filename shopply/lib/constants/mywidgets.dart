@@ -16,8 +16,9 @@ class MyWidget {
     double? curve,
     double? boxHeight,
     double? boxWidth,
-    Icon? icon,
+    Widget? icon,
     bool? useDefaultStyle,
+    double? letterspace,
   }) {
     Sizes().heightSizeCalc(context);
     Sizes().widthSizeCalc(context);
@@ -30,10 +31,11 @@ class MyWidget {
             proceed();
           },
           style: MyDecor().buttonDecor(
-              context: context,
-              bordercurver: Sizes.w10,
-              buttoncolor: buttonColor ?? MyColors.mainColor.withOpacity(.8),
-              bordercolor: bordercolor ?? MyColors.mainColor.withOpacity(.8)),
+            context: context,
+            bordercurver: Sizes.w10,
+            buttoncolor: buttonColor ?? MyColors.mainColor.withOpacity(.8),
+            bordercolor: bordercolor ?? MyColors.mainColor.withOpacity(.8),
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -45,11 +47,14 @@ class MyWidget {
                     ? TextStyle(
                         fontSize: buttonTextSize ?? Sizes.w20,
                         color: buttonTextColor ?? Colors.white,
-                        fontWeight: FontWeight.w500)
+                        fontWeight: FontWeight.w500,
+                      )
                     : MyDecor().textstyle(
                         fontsize: buttonTextSize ?? Sizes.w20,
                         fontcolor: buttonTextColor ?? Colors.white,
-                        fontweight: FontWeight.w500),
+                        fontweight: FontWeight.w500,
+                        letterspace: letterspace,
+                      ),
               ),
             ],
           ),

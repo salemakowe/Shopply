@@ -1,6 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopply/constants/myassets.dart';
+import 'package:shopply/constants/mycolors.dart';
 import 'package:shopply/constants/mydecoration.dart';
 import 'package:shopply/constants/myfunctions.dart';
 import 'package:shopply/constants/mysizes.dart';
@@ -37,96 +40,167 @@ class _LoginPageState extends State<LoginPage> {
             ),
             child: Padding(
               padding: internalPadding(context),
-              child: Form(
-                key: formkey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: Sizes.h40,
-                    ),
-                    Image.asset(
-                      MyAssets.logoBlue,
-                      width: Sizes.w70,
-                    ),
-                    customDivider(height: Sizes.h20),
-                    Text(
-                      "Welcome to Shopply",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold,
-                        fontSize: Sizes.w20,
+              child: SingleChildScrollView(
+                child: Form(
+                  key: formkey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: Sizes.h40,
                       ),
-                    ),
-                    customDivider(height: Sizes.h10),
-                    Text(
-                      "Sign in to continue",
-                      style: GoogleFonts.poppins(
-                        fontSize: Sizes.w12,
-                        color: Colors.grey,
+                      Image.asset(
+                        MyAssets.logoBlue,
+                        width: Sizes.w70,
                       ),
-                    ),
-                    customDivider(height: Sizes.h40),
-
-                    //Email
-                    TextFormField(
-                      controller: emailController,
-                      decoration: MyDecor().form(
-                        context: context,
-                        hinttext: "Your Email",
-                        prefixicon: const Icon(
-                          Icons.mail_outline,
+                      customDivider(height: Sizes.h20),
+                      Text(
+                        "Welcome to Shopply",
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          fontSize: Sizes.w25,
+                        ),
+                      ),
+                      customDivider(height: Sizes.h10),
+                      Text(
+                        "Sign in to continue",
+                        style: GoogleFonts.poppins(
+                          fontSize: Sizes.w15,
                           color: Colors.grey,
                         ),
                       ),
-                    ),
-                    customDivider(height: Sizes.h10),
+                      customDivider(height: Sizes.h40),
 
-                    //Password
-                    TextFormField(
-                      controller: emailController,
-                      decoration: MyDecor().form(
-                        context: context,
-                        hinttext: "Password",
-                        prefixicon: const Icon(
-                          Icons.lock_outline,
-                          color: Colors.grey,
+                      //Email
+                      TextFormField(
+                        controller: emailController,
+                        decoration: MyDecor().form(
+                          context: context,
+                          hinttext: "Your Email",
+                          prefixicon: const Icon(
+                            Icons.mail_outline,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
-                    ),
-                    customDivider(height: Sizes.h20),
+                      customDivider(height: Sizes.h10),
 
-                    //Button
-                    MyWidget().button(
-                      context: context,
-                      proceed: proceed,
-                      buttonText: "Sign in",
-                    ),
+                      //Password
+                      TextFormField(
+                        controller: emailController,
+                        decoration: MyDecor().form(
+                          context: context,
+                          hinttext: "Password",
+                          prefixicon: const Icon(
+                            Icons.lock_outline,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      customDivider(height: Sizes.h20),
 
-                    customDivider(height: Sizes.h15),
+                      //Button
+                      MyWidget().button(
+                        context: context,
+                        proceed: proceed,
+                        buttonText: "Sign in",
+                      ),
 
-                    //OR and Social Media
+                      customDivider(height: Sizes.h15),
 
-                    //Google Sign in
-                    MyWidget().button(
-                      context: context,
-                      proceed: proceed,
-                      icon: Icon(Icons.mail),
-                      buttonText: "Login with Google",
-                      buttonTextColor: Colors.grey,
-                      buttonColor: Colors.white,
-                    ),
+                      //OR and Social Media
 
-                    customDivider(height: Sizes.h15),
+                      //Google Sign in
+                      MyWidget().button(
+                        context: context,
+                        proceed: () {
+                          print(" Google sign in");
+                        },
+                        icon: Image.asset(
+                          MyAssets.googleLogo,
+                          width: Sizes.w20,
+                          height: Sizes.h20,
+                        ),
+                        buttonText: "Sign in with Google",
+                        buttonTextColor: Colors.grey,
+                        buttonColor: Colors.white,
+                      ),
 
-                    //Apple Sign in
-                    MyWidget().button(
-                      context: context,
-                      proceed: proceed,
-                      buttonText: "Login with Apple",
-                      buttonTextColor: Colors.grey,
-                      buttonColor: Colors.white,
-                    ),
-                  ],
+                      customDivider(height: Sizes.h15),
+
+                      //Apple Sign in
+                      MyWidget().button(
+                        context: context,
+                        proceed: () {
+                          print(" Apple sign in");
+                        },
+                        icon: Image.asset(
+                          MyAssets.appleLogo,
+                          width: Sizes.w25,
+                          height: Sizes.h25,
+                        ),
+                        buttonText: "Sign in with Apple",
+                        buttonTextColor: Colors.grey,
+                        buttonColor: Colors.white,
+                      ),
+
+                      customDivider(height: Sizes.h15),
+
+                      //Facebook Sign in
+                      MyWidget().button(
+                        context: context,
+                        proceed: () {
+                          print(" Facebook sign in");
+                        },
+                        icon: Image.asset(
+                          alignment: Alignment.centerLeft,
+                          MyAssets.facebookLogo,
+                          width: Sizes.w25,
+                          height: Sizes.h25,
+                        ),
+                        buttonText: "Sign in with Facebook",
+                        buttonTextColor: Colors.grey,
+                        buttonColor: Colors.white,
+                      ),
+
+                      customDivider(height: Sizes.h30),
+                      //Forgot Password
+                      GestureDetector(
+                        onTap: () {
+                          print("Forgot password");
+                        },
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            color: MyColors.mainColor,
+                            letterSpacing: Sizes.w2,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      customDivider(height: Sizes.h20),
+                      RichText(
+                        text: TextSpan(
+                          text: "Don't have an account?",
+                          style: MyDecor().textstyle(
+                            fontcolor: Colors.grey,
+                          ),
+                          children: [
+                            TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  print("registered");
+                                },
+                              text: ' Register',
+                              style: MyDecor().textstyle(
+                                fontcolor: MyColors.mainColor,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
