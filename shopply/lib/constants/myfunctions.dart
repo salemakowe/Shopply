@@ -11,8 +11,9 @@ EdgeInsets internalPadding(
   Sizes().heightSizeCalc(context);
   Sizes().widthSizeCalc(context);
   return EdgeInsets.only(
-      top: top ?? Sizes.h15,
-      bottom: bottom ?? Sizes.h15,
-      right: right ?? Sizes.w20,
-      left: left ?? Sizes.w20);
+    top: top ?? Sizes.h15,
+    bottom: bottom ?? Sizes.h15,
+    right: right ?? Sizes.w20,
+    left: left ?? Sizes.w20,
+  );
 }

@@ -102,7 +102,10 @@ class MyDecor {
     Sizes().heightSizeCalc(context);
     Sizes().widthSizeCalc(context);
     return InputDecoration(
-      prefixIcon: prefixicon,
+      prefixIcon: Padding(
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+        child: prefixicon,
+      ),
       prefixIconConstraints: const BoxConstraints(minHeight: 4, minWidth: 4),
       suffixIconConstraints: const BoxConstraints(minHeight: 4, minWidth: 4),
       suffixIcon: Padding(
@@ -185,4 +188,28 @@ class MyDecor {
             ),
     );
   }
+}
+
+buttonDecor(
+    {Color? buttoncolor,
+    Color? bordercolor,
+    Color? elevationColor,
+    double? elevation,
+    double? bordercurver,
+    required BuildContext context}) {
+  double size = MediaQuery.of(context).size.width;
+  double w5 = size * .0118;
+  return ElevatedButton.styleFrom(
+    elevation: elevation,
+    shadowColor: Colors.transparent,
+    backgroundColor: buttoncolor,
+    side: BorderSide(
+      color: bordercolor ?? MyColors.mainColor,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(bordercurver ?? w5),
+      ),
+    ),
+  );
 }
