@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,6 +10,7 @@ import 'package:shopply/constants/myfunctions.dart';
 import 'package:shopply/constants/mysizes.dart';
 import 'package:shopply/constants/mywidgets.dart';
 import 'package:shopply/main.dart';
+import 'package:shopply/signup.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -26,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final node = FocusScope.of(context);
+    // final node = FocusScope.of(context);
     Sizes().heightSizeCalc(context);
     Sizes().widthSizeCalc(context);
     return SafeArea(
@@ -49,10 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(
                         height: Sizes.h40,
                       ),
-                      Image.asset(
-                        MyAssets.logoBlue,
-                        width: Sizes.w70,
-                      ),
+                      Image.asset(MyAssets.logoBlue, width: Sizes.w70),
                       customDivider(height: Sizes.h20),
                       Text(
                         "Welcome to Shopply",
@@ -65,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                       Text(
                         "Sign in to continue",
                         style: GoogleFonts.poppins(
-                          fontSize: Sizes.w15,
+                          fontSize: Sizes.w18,
                           color: Colors.grey,
                         ),
                       ),
@@ -106,6 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                               _passwordvisible
                                   ? Icons.visibility
                                   : Icons.visibility_off,
+                              color: Colors.grey,
                             ),
                           ),
                         ),
@@ -202,13 +202,17 @@ class _LoginPageState extends State<LoginPage> {
                             TextSpan(
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  print("registered");
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const SignUpPage(),
+                                    ),
+                                  );
                                 },
                               text: ' Register',
                               style: MyDecor().textstyle(
                                 fontcolor: MyColors.mainColor,
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
