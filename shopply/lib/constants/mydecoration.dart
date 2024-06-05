@@ -99,6 +99,7 @@ class MyDecor {
     bool? usetoppadding,
     bool? disableBorder,
     bool useHint = false,
+    bool isFocused = false,
   }) {
     Sizes().heightSizeCalc(context);
     Sizes().widthSizeCalc(context);
@@ -153,7 +154,7 @@ class MyDecor {
           : OutlineInputBorder(
               borderRadius: BorderRadius.circular(Sizes.w10),
               borderSide: const BorderSide(
-                color: MyColors.formborder,
+                color: MyColors.mainColor,
                 width: 1,
               ),
             ),

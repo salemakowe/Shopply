@@ -36,85 +36,105 @@ class _SignUpPageState extends State<SignUpPage> {
     return SafeArea(
       child: PopScope(
         canPop: true,
-        child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-          ),
-          body: MediaQuery(
-            data: MediaQuery.of(context).copyWith(
-              padding: const EdgeInsets.all(0),
-              textScaler: TextScaler.linear(textScale),
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              shadowColor: Colors.transparent,
+              backgroundColor: Colors.transparent,
+              foregroundColor: Colors.transparent,
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.grey,
+                  )),
             ),
-            child: Padding(
-              padding: internalPadding(context),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: formKey,
-                  child: Center(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: Sizes.h40,
-                        ),
-                        Image.asset(MyAssets.logoBlue, width: Sizes.w70),
-                        customDivider(height: Sizes.h20),
-                        Text(
-                          "Let's get Started",
-                          style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.bold,
-                            fontSize: Sizes.w25,
+            body: MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                padding: const EdgeInsets.all(0),
+                textScaler: TextScaler.linear(textScale),
+              ),
+              child: Padding(
+                padding: internalPadding(context),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: formKey,
+                    child: Center(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: Sizes.h40,
                           ),
-                        ),
-                        customDivider(height: Sizes.h10),
-                        Text(
-                          "Create a new account",
-                          style: GoogleFonts.poppins(
-                            fontSize: Sizes.w18,
-                            color: Colors.grey,
+                          Image.asset(MyAssets.logoBlue, width: Sizes.w70),
+                          customDivider(height: Sizes.h20),
+                          Text(
+                            "Let's get Started",
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.bold,
+                              fontSize: Sizes.w25,
+                            ),
                           ),
-                        ),
-                        customDivider(height: Sizes.h40),
-                        firstName(context),
-                        customDivider(height: Sizes.h10),
-                        lastName(context),
-                        customDivider(height: Sizes.h10),
-                        email(context),
-                        customDivider(height: Sizes.h10),
-                        pwd(context),
-                        customDivider(height: Sizes.h10),
-                        confirmPwd(context),
-                        customDivider(height: Sizes.h10),
-                        MyWidget().button(
-                          context: context,
-                          proceed: () {},
-                          buttonText: "Sign Up",
-                        ),
-                        customDivider(height: Sizes.h10),
-                        RichText(
-                          text: TextSpan(
-                              text: 'have and account? ',
-                              style: MyDecor().textstyle(
-                                fontcolor: Colors.grey,
-                              ),
-                              children: [
-                                TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginPage(),
-                                        ),
-                                      );
-                                    },
-                                  text: "Login",
-                                  style: MyDecor().textstyle(
-                                    fontcolor: MyColors.mainColor,
-                                  ),
+                          customDivider(height: Sizes.h10),
+                          Text(
+                            "Create a new account",
+                            style: GoogleFonts.poppins(
+                              fontSize: Sizes.w18,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          customDivider(height: Sizes.h40),
+                          firstName(context),
+                          customDivider(height: Sizes.h10),
+                          lastName(context),
+                          customDivider(height: Sizes.h10),
+                          email(context),
+                          customDivider(height: Sizes.h10),
+                          pwd(context),
+                          customDivider(height: Sizes.h10),
+                          confirmPwd(context),
+                          customDivider(height: Sizes.h10),
+                          MyWidget().button(
+                            context: context,
+                            proceed: () {},
+                            buttonText: "Sign Up",
+                          ),
+                          customDivider(height: Sizes.h10),
+                          RichText(
+                            text: TextSpan(
+                                text: 'have and account? ',
+                                style: MyDecor().textstyle(
+                                  fontcolor: Colors.grey,
                                 ),
-                              ]),
-                        )
-                      ],
+                                children: [
+                                  TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginPage(),
+                                          ),
+                                        );
+                                      },
+                                    text: "Login",
+                                    style: MyDecor().textstyle(
+                                      fontcolor: MyColors.mainColor,
+                                    ),
+                                  ),
+                                ]),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
