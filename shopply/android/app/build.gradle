@@ -48,8 +48,8 @@ android {
         applicationId "com.example.shopply"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 22
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -67,4 +67,29 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+// dependencies {}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // Add your actual dependencies here
+    // For example:
+    // implementation 'com.google.firebase:firebase-analytics-ktx'
+    // implementation 'com.google.firebase:firebase-auth-ktx'
+
+    // Exclude old Kotlin stdlib versions from any library that might bring it in
+    // Add exclusion rules for your actual dependencies if needed
+    // implementation('your.dependency:dependency:version') {
+    //     exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
+    //     exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
+    // }
+}
+
+// Force Kotlin version resolution strategy
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'org.jetbrains.kotlin') {
+            details.useVersion kotlin_version
+        }
+    }
+}
