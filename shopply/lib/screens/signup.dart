@@ -7,7 +7,7 @@ import 'package:shopply/constants/mydecoration.dart';
 import 'package:shopply/constants/myfunctions.dart';
 import 'package:shopply/constants/mysizes.dart';
 import 'package:shopply/constants/mywidgets.dart';
-import 'package:shopply/login.dart';
+import 'package:shopply/screens/login.dart';
 import 'package:shopply/main.dart';
 
 class SignUpPage extends StatefulWidget {

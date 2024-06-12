@@ -9,9 +9,9 @@ import 'package:shopply/constants/mydecoration.dart';
 import 'package:shopply/constants/myfunctions.dart';
 import 'package:shopply/constants/mysizes.dart';
 import 'package:shopply/constants/mywidgets.dart';
-import 'package:shopply/dashboard.dart';
+import 'package:shopply/screens/dashboard.dart';
 import 'package:shopply/main.dart';
-import 'package:shopply/signup.dart';
+import 'package:shopply/screens/signup.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

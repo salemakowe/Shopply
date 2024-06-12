@@ -18,6 +18,13 @@ class _DashboardPageState extends State<DashboardPage> {
   TextEditingController searchController = TextEditingController();
   bool _isSearching = false;
   String searchText = "";
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +111,22 @@ class _DashboardPageState extends State<DashboardPage> {
                 child: Column(),
               ),
             ),
+
+            //Bottom Nav Bar
+            bottomNavigationBar: bottomNavBar(
+              items: [
+                bottomNavBarItems(icon: Icons.home_outlined, label: 'Home'),
+                bottomNavBarItems(
+                    icon: Icons.search_outlined, label: 'Explore'),
+                bottomNavBarItems(
+                    icon: Icons.shopping_cart_outlined, label: 'Cart'),
+                bottomNavBarItems(icon: Icons.sell_outlined, label: 'Offer'),
+                bottomNavBarItems(icon: Icons.person_outline, label: 'Account'),
+              ],
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+              selectedItemColor: MyColors.mainColor,
+            ),
           ),
         ),
       ),
@@ -126,6 +149,7 @@ class _DashboardPageState extends State<DashboardPage> {
     });
   }
 
+  //Dashboard Drawer
   dashboardDrawer() {
     return Theme(
       data: Theme.of(context).copyWith(
@@ -189,6 +213,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
+  //Drawer Items
   drawerItems(
     BuildContext, {
     required IconData icon,
@@ -204,6 +229,33 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
         title: Text(optionName),
       ),
+    );
+  }
+
+  // Bottom Nav Bar
+  bottomNavBar({
+    required List<BottomNavigationBarItem> items,
+    required ValueChanged<int> onTap,
+    int currentIndex = 0,
+    Color selectedItemColor = MyColors.mainColor,
+  }) {
+    return BottomNavigationBar(
+      items: items,
+      currentIndex: currentIndex,
+      selectedItemColor: selectedItemColor,
+      onTap: onTap,
+      unselectedItemColor: Colors.grey,
+    );
+  }
+
+// Bottom Nav Bar Items
+  bottomNavBarItems({
+    required IconData icon,
+    required String label,
+  }) {
+    return BottomNavigationBarItem(
+      icon: Icon(icon),
+      label: label,
     );
   }
 }
