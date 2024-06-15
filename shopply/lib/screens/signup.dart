@@ -76,7 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             height: Sizes.h40,
                           ),
                           Image.asset(MyAssets.logoBlue, width: Sizes.w70),
-                          customDivider(height: Sizes.h20),
+                          MyWidget().customDivider(height: Sizes.h20),
                           Text(
                             "Let's get Started",
                             style: GoogleFonts.poppins(
@@ -84,7 +84,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               fontSize: Sizes.w25,
                             ),
                           ),
-                          customDivider(height: Sizes.h10),
+                          MyWidget().customDivider(height: Sizes.h10),
                           Text(
                             "Create a new account",
                             style: GoogleFonts.poppins(
@@ -92,23 +92,23 @@ class _SignUpPageState extends State<SignUpPage> {
                               color: Colors.grey,
                             ),
                           ),
-                          customDivider(height: Sizes.h40),
+                          MyWidget().customDivider(height: Sizes.h40),
                           firstName(context),
-                          customDivider(height: Sizes.h10),
+                          MyWidget().customDivider(height: Sizes.h10),
                           lastName(context),
-                          customDivider(height: Sizes.h10),
+                          MyWidget().customDivider(height: Sizes.h10),
                           email(context),
-                          customDivider(height: Sizes.h10),
+                          MyWidget().customDivider(height: Sizes.h10),
                           pwd(context),
-                          customDivider(height: Sizes.h10),
+                          MyWidget().customDivider(height: Sizes.h10),
                           confirmPwd(context),
-                          customDivider(height: Sizes.h10),
+                          MyWidget().customDivider(height: Sizes.h10),
                           MyWidget().button(
                             context: context,
                             proceed: () {},
                             buttonText: "Sign Up",
                           ),
-                          customDivider(height: Sizes.h10),
+                          MyWidget().customDivider(height: Sizes.h10),
                           RichText(
                             text: TextSpan(
                                 text: 'have and account? ',

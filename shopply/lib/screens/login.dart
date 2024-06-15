@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopply/constants/myassets.dart';
 import 'package:shopply/constants/mycolors.dart';
@@ -9,8 +8,8 @@ import 'package:shopply/constants/mydecoration.dart';
 import 'package:shopply/constants/myfunctions.dart';
 import 'package:shopply/constants/mysizes.dart';
 import 'package:shopply/constants/mywidgets.dart';
-import 'package:shopply/screens/dashboard.dart';
 import 'package:shopply/main.dart';
+import 'package:shopply/screens/dashboard.dart';
 import 'package:shopply/screens/signup.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,15 +22,17 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool _passwordvisible = true;
+  final formKey = GlobalKey<FormState>();
   IconData visibilityIcon = Icons.visibility;
-  final formkey = GlobalKey<FormState>();
+  bool _passwordVisible = true;
+  bool hasError = true;
 
   @override
   Widget build(BuildContext context) {
     final node = FocusScope.of(context);
-    Sizes().heightSizeCalc(context);
-    Sizes().widthSizeCalc(context);
+    // final height = Sizes().heightSizeCalc(context);
+    // final width = Sizes().widthSizeCalc(context);
+
     return SafeArea(
       child: PopScope(
         canPop: true,
@@ -49,15 +50,13 @@ class _LoginPageState extends State<LoginPage> {
                 padding: internalPadding(context),
                 child: SingleChildScrollView(
                   child: Form(
-                    key: formkey,
+                    key: formKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: Sizes.h40,
-                        ),
+                        SizedBox(height: Sizes.h40),
                         Image.asset(MyAssets.logoBlue, width: Sizes.w70),
-                        customDivider(height: Sizes.h20),
+                        MyWidget().customDivider(height: Sizes.h20),
                         Text(
                           "Welcome to Shopply",
                           style: GoogleFonts.poppins(
@@ -65,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                             fontSize: Sizes.w25,
                           ),
                         ),
-                        customDivider(height: Sizes.h10),
+                        MyWidget().customDivider(height: Sizes.h10),
                         Text(
                           "Sign in to continue",
                           style: GoogleFonts.poppins(
@@ -73,11 +72,12 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.grey,
                           ),
                         ),
-                        customDivider(height: Sizes.h40),
+                        MyWidget().customDivider(height: Sizes.h40),
 
-                        //Email
+                        // Email
                         TextFormField(
                           controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: MyDecor().form(
                             context: context,
                             hinttext: "Your Email / Username",
@@ -86,13 +86,34 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.grey,
                             ),
                           ),
+                          onEditingComplete: node.nextFocus,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              setState(() {
+                                hasError = true;
+                              });
+                              return 'Email cannot be empty';
+                            } else if (!value.contains('@') ||
+                                !value.contains('.com')) {
+                              setState(() {
+                                hasError = true;
+                              });
+                              return 'Invalid email address';
+                            } else {
+                              setState(() {
+                                hasError = false;
+                              });
+                              return null;
+                            }
+                          },
                         ),
-                        customDivider(height: Sizes.h10),
+                        MyWidget().customDivider(height: Sizes.h10),
 
-                        //Password
+                        // Password
                         TextFormField(
                           controller: passwordController,
-                          obscureText: _passwordvisible,
+                          obscureText: _passwordVisible,
+                          keyboardType: TextInputType.visiblePassword,
                           decoration: MyDecor().form(
                             context: context,
                             hinttext: "Password",
@@ -103,36 +124,45 @@ class _LoginPageState extends State<LoginPage> {
                             suffixicon: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  _passwordvisible = !_passwordvisible;
+                                  _passwordVisible = !_passwordVisible;
                                 });
                               },
                               child: Icon(
-                                _passwordvisible
+                                _passwordVisible
                                     ? Icons.visibility
                                     : Icons.visibility_off,
                                 color: Colors.grey,
                               ),
                             ),
                           ),
+                          onEditingComplete: node.nextFocus,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Password can be empty';
+                            }
+                            return null;
+                          },
                         ),
-                        customDivider(height: Sizes.h20),
+                        MyWidget().customDivider(height: Sizes.h20),
 
-                        //Button
+                        // Button
                         MyWidget().button(
                           context: context,
                           proceed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const DashboardPage(),
-                              ),
-                            );
+                            if (formKey.currentState?.validate() ?? false) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const DashboardPage(),
+                                ),
+                              );
+                            }
                           },
                           buttonText: "Sign in",
                         ),
 
-                        customDivider(height: Sizes.h15),
+                        MyWidget().customDivider(height: Sizes.h15),
 
-                        //OR and Social Media
+                        // OR and Social Media
                         const Row(
                           children: [
                             Expanded(
@@ -155,13 +185,13 @@ class _LoginPageState extends State<LoginPage> {
                           ],
                         ),
 
-                        customDivider(height: Sizes.h15),
+                        MyWidget().customDivider(height: Sizes.h15),
 
-                        //Google Sign in
+                        // Google Sign in
                         MyWidget().button(
                           context: context,
                           proceed: () {
-                            print(" Google sign in");
+                            print("Google sign in");
                           },
                           icon: Image.asset(
                             MyAssets.googleLogo,
@@ -173,13 +203,13 @@ class _LoginPageState extends State<LoginPage> {
                           buttonColor: Colors.white,
                         ),
 
-                        customDivider(height: Sizes.h15),
+                        MyWidget().customDivider(height: Sizes.h15),
 
-                        //Apple Sign in
+                        // Apple Sign in
                         MyWidget().button(
                           context: context,
                           proceed: () {
-                            print(" Apple sign in");
+                            print("Apple sign in");
                           },
                           icon: Image.asset(
                             MyAssets.appleLogo,
@@ -191,13 +221,13 @@ class _LoginPageState extends State<LoginPage> {
                           buttonColor: Colors.white,
                         ),
 
-                        customDivider(height: Sizes.h15),
+                        MyWidget().customDivider(height: Sizes.h15),
 
-                        //Facebook Sign in
+                        // Facebook Sign in
                         MyWidget().button(
                           context: context,
                           proceed: () {
-                            print(" Facebook sign in");
+                            print("Facebook sign in");
                           },
                           icon: Image.asset(
                             alignment: Alignment.centerLeft,
@@ -210,8 +240,9 @@ class _LoginPageState extends State<LoginPage> {
                           buttonColor: Colors.white,
                         ),
 
-                        customDivider(height: Sizes.h30),
-                        //Forgot Password
+                        MyWidget().customDivider(height: Sizes.h30),
+
+                        // Forgot Password
                         GestureDetector(
                           onTap: () {
                             print("Forgot password");
@@ -225,7 +256,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
-                        customDivider(height: Sizes.h20),
+                        MyWidget().customDivider(height: Sizes.h20),
                         RichText(
                           text: TextSpan(
                             text: "Don't have an account?",
@@ -263,5 +294,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  proceed() {}
+  userSignIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+  }
 }

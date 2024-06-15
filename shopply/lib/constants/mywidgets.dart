@@ -1,11 +1,13 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shopply/constants/mycolors.dart';
 import 'package:shopply/constants/mydecoration.dart';
 import 'package:shopply/constants/mysizes.dart';
 import 'package:shopply/main.dart';
 
 class MyWidget {
-  Widget button({
+  button({
     required BuildContext context,
     required Function proceed,
     Color? buttonColor,
@@ -62,16 +64,87 @@ class MyWidget {
       ),
     );
   }
+
+  loadingDiag() {
+    return PopScope(
+      canPop: false,
+      child: Container(
+        color: Colors.black.withOpacity(.7),
+        child: AlertDialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          contentPadding: const EdgeInsets.all(0),
+          insetPadding: const EdgeInsets.symmetric(horizontal: 130),
+          shape: const RoundedRectangleBorder(
+            side: BorderSide(color: Colors.transparent),
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            ),
+          ),
+          content: SizedBox(
+            height: Sizes.h150,
+            width: Sizes.h150,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SpinKitFadingCube(
+                  color: Colors.white,
+                  size: 30,
+                ),
+                customDivider(height: Sizes.h25),
+                Text(
+                  'please wait ...',
+                  style: MyDecor()
+                      .textstyle(fontcolor: Colors.white, fontsize: Sizes.w15),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  futureLoading({double? iconSize}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SpinKitFadingCube(
+          color: Colors.grey,
+          size: iconSize ?? 30,
+        ),
+        customDivider(height: Sizes.h25),
+        Text(
+          'please wait ...',
+          style:
+              MyDecor().textstyle(fontcolor: Colors.black, fontsize: Sizes.w15),
+        )
+      ],
+    );
+  }
+
+  snackalert(BuildContext context, String message, {Color? snackColor}) {
+    Flushbar(
+      message: message,
+      backgroundColor: snackColor ?? Colors.red,
+      duration: const Duration(seconds: 5),
+      padding: const EdgeInsets.all(10),
+    ).show(context);
+  }
+
+  customDivider({double? height, Color? color, double? thickness}) {
+    return SizedBox(
+      height: height ?? 1,
+    );
+  }
+
+  customhorizontal({double? width}) {
+    return SizedBox(
+      width: width ?? 1,
+    );
+  }
 }
 
-Widget customDivider({double? height, Color? color, double? thickness}) {
-  return SizedBox(
-    height: height ?? 1,
-  );
-}
-
-Widget customhorizontal({double? width}) {
-  return SizedBox(
-    width: width ?? 1,
-  );
-}
+proceed() {}

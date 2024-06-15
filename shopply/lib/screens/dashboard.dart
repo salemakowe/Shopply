@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,6 +7,7 @@ import 'package:shopply/constants/mydecoration.dart';
 import 'package:shopply/constants/myfunctions.dart';
 import 'package:shopply/constants/mysizes.dart';
 import 'package:shopply/main.dart';
+import 'package:shopply/screens/login.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -159,6 +161,7 @@ class _DashboardPageState extends State<DashboardPage> {
             //Profile
             drawerItems(
               BuildContext,
+              onTap: () {},
               icon: Icons.account_circle_outlined,
               optionName: 'Profile',
             ),
@@ -166,6 +169,7 @@ class _DashboardPageState extends State<DashboardPage> {
             //Notifications
             drawerItems(
               BuildContext,
+              onTap: () {},
               icon: Icons.notifications_outlined,
               optionName: 'Notifications',
             ),
@@ -173,6 +177,7 @@ class _DashboardPageState extends State<DashboardPage> {
             //Settings
             drawerItems(
               BuildContext,
+              onTap: () {},
               icon: Icons.settings_outlined,
               optionName: 'Settings',
             ),
@@ -180,6 +185,7 @@ class _DashboardPageState extends State<DashboardPage> {
             //Logout
             drawerItems(
               BuildContext,
+              onTap: userSignOut,
               icon: Icons.logout_outlined,
               optionName: 'Logout',
             ),
@@ -193,10 +199,11 @@ class _DashboardPageState extends State<DashboardPage> {
     BuildContext, {
     required IconData icon,
     required String optionName,
+    required VoidCallback? onTap,
     Color iconColor = MyColors.mainColor,
   }) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: ListTile(
         leading: Icon(
           icon,
@@ -205,5 +212,11 @@ class _DashboardPageState extends State<DashboardPage> {
         title: Text(optionName),
       ),
     );
+  }
+
+  userSignOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
   }
 }
