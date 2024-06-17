@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: authUser(),
+      home: const AuthGate(),
       routes: {
         '/login': (context) => const LoginPage(),
         '/dashboard': (context) => const DashboardPage(),
@@ -38,20 +38,52 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  authUser() {
-    return StreamBuilder(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        //user is logged in
-        if (snapshot.hasData) {
-          return const DashboardPage();
-        }
+  // authUser() {
+  //   return StreamBuilder(
+  //     stream: FirebaseAuth.instance.authStateChanges(),
+  //     builder: (context, snapshot) {
+  //       // return const LoginPage();
+  //       //user is logged in
+  //       if (snapshot.hasData) {
+  //         return const DashboardPage();
+  //       }
 
-        //user not logged in
-        else {
-          return const LoginPage();
-        }
-      },
+  //       //user not logged in
+  //       else {
+  //         return const LoginPage();
+  //       }
+  //     },
+  //   );
+  // }
+}
+
+class AuthGate extends StatefulWidget {
+  const AuthGate({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _AuthGateState createState() => _AuthGateState();
+}
+
+class _AuthGateState extends State<AuthGate> {
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        Navigator.of(context).pushReplacementNamed('/login');
+      } else {
+        Navigator.of(context).pushReplacementNamed('/dashboard');
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

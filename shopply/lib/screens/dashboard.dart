@@ -7,7 +7,6 @@ import 'package:shopply/constants/mydecoration.dart';
 import 'package:shopply/constants/myfunctions.dart';
 import 'package:shopply/constants/mysizes.dart';
 import 'package:shopply/main.dart';
-import 'package:shopply/screens/login.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -103,7 +102,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 padding: internalPadding(context),
 
                 //start your widget from here
-                child: Column(),
+                child: const Column(),
               ),
             ),
           ),
@@ -154,7 +153,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             ),
 
-            SizedBox(),
+            const SizedBox(),
 
             //Contents
 
@@ -216,6 +215,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   userSignOut() async {
     await FirebaseAuth.instance.signOut();
+    // ignore: use_build_context_synchronously
     Navigator.of(context)
         .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
   }

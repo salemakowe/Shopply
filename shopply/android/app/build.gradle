@@ -74,8 +74,8 @@ dependencies {
 
     // Add your actual dependencies here
     // For example:
-    // implementation 'com.google.firebase:firebase-analytics-ktx'
-    // implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
 
     // Exclude old Kotlin stdlib versions from any library that might bring it in
     // Add exclusion rules for your actual dependencies if needed

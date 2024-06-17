@@ -150,11 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                           context: context,
                           proceed: () {
                             if (formKey.currentState?.validate() ?? false) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const DashboardPage(),
-                                ),
-                              );
+                              userSignIn();
                             }
                           },
                           buttonText: "Sign in",
@@ -295,9 +291,55 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   userSignIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text,
-      password: passwordController.text,
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(
+            color: MyColors.mainColor,
+          ),
+        );
+      },
     );
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, '/dashboard');
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+
+      String errorMessage = 'An error occurred. Please try again.';
+      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+        errorMessage = 'Invalid Email or Password';
+      }
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: Text(errorMessage),
+            contentPadding: const EdgeInsets.all(16.0),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Ok'),
+              ),
+            ],
+          );
+        },
+      );
+    } finally {
+      if (mounted) {
+        Navigator.pop(context); // Close the progress indicator dialog
+      }
+    }
   }
 }
