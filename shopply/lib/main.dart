@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shopply/screens/dashboard.dart';
 import 'package:shopply/screens/forgotPassword.dart';
+import 'package:shopply/screens/otppage.dart';
 import 'firebase_options.dart';
 // import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:shopply/screens/login.dart';
@@ -31,8 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      // home: const AuthGate(),
-      home: const ForgotPassword(),
+      home: const AuthGate(),
       routes: {
         '/login': (context) => const LoginPage(),
         '/dashboard': (context) => const DashboardPage(),

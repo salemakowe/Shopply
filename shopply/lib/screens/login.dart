@@ -10,6 +10,8 @@ import 'package:shopply/constants/mysizes.dart';
 import 'package:shopply/constants/mywidgets.dart';
 import 'package:shopply/main.dart';
 import 'package:shopply/screens/dashboard.dart';
+import 'package:shopply/screens/forgotPassword.dart';
+import 'package:shopply/screens/otppage.dart';
 import 'package:shopply/screens/signup.dart';
 
 class LoginPage extends StatefulWidget {
@@ -241,7 +243,12 @@ class _LoginPageState extends State<LoginPage> {
                         // Forgot Password
                         GestureDetector(
                           onTap: () {
-                            print("Forgot password");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ForgotPassword(),
+                              ),
+                            );
                           },
                           child: Text(
                             'Forgot Password?',
