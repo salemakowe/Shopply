@@ -10,6 +10,7 @@ import 'package:shopply/constants/myfunctions.dart';
 import 'package:shopply/constants/mysizes.dart';
 import 'package:shopply/constants/mywidgets.dart';
 import 'package:shopply/main.dart';
+import 'package:shopply/screens/passwordreset.dart';
 
 class OtpPage extends StatefulWidget {
   final String email;
@@ -129,17 +130,48 @@ class _OtpPageState extends State<OtpPage> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10.0)),
                       ),
-                      MyWidget().customDivider(height: Sizes.h20),
-                      MyWidget().button(
-                        context: context,
-                        proceed: proceed,
-                        buttonColor:
-                            resendOTP ? MyColors.mainColor : Colors.grey[100],
-                        buttonTextSize: Sizes.w15,
-                        buttonTextColor: resendOTP ? Colors.black : Colors.grey,
-                        buttonText:
-                            "I didn't receive the code ($customMin:${customSecond < 10 ? '0' : ''}$customSecond)",
-                      ),
+                      MyWidget().customDivider(height: Sizes.h30),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: MyWidget().button(
+                                context: context,
+                                proceed: () {
+                                  print('Otp resent');
+                                },
+                                buttonColor: resendOTP
+                                    ? Colors.amber[300]
+                                    : Colors.grey[100],
+                                buttonTextSize: Sizes.w15,
+                                buttonTextColor:
+                                    resendOTP ? Colors.black : Colors.grey,
+                                buttonText:
+                                    "Resend code ($customMin:${customSecond < 10 ? '0' : ''}$customSecond)",
+                              ),
+                            ),
+                            MyWidget().customhorizontal(width: Sizes.w10),
+                            Expanded(
+                              child: MyWidget().button(
+                                context: context,
+                                proceed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PasswordReset(),
+                                    ),
+                                  );
+                                },
+                                buttonTextSize: Sizes.w15,
+                                buttonText: 'Reset password',
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -152,83 +184,92 @@ class _OtpPageState extends State<OtpPage> {
   }
 }
 
-List _inputCodes = <int>[];
+// List _inputCodes = <int>[];
 
-class CodePanel extends StatelessWidget {
-  final int? codeLength;
-  final int? currentLength;
-  const CodePanel({
-    super.key,
-    this.codeLength,
-    this.currentLength,
-  });
+// class CodePanel extends StatelessWidget {
+//   final int? codeLength;
+//   final int? currentLength;
+//   const CodePanel({
+//     super.key,
+//     this.codeLength,
+//     this.currentLength,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    var circles = <Widget>[];
-    Color containerColor = MyColors.lightgrey;
-    for (int i = 1; i <= codeLength!; i++) {
-      if (i > currentLength!) {
-        circles.add(
-          SizedBox(
-            height: Sizes.w50,
-            width: Sizes.w50,
-            child: Container(
-              decoration: MyDecor().container(
-                  context: context,
-                  containerColor: Colors.white,
-                  curve: Sizes.w15,
-                  borderColor: containerColor),
-            ),
-          ),
-        );
-      } else {
-        circles.add(
-          SizedBox(
-            height: Sizes.w50,
-            width: Sizes.w50,
-            child: Container(
-              alignment: Alignment.center,
-              decoration: MyDecor().container(
-                context: context,
-                containerColor: containerColor,
-                curve: Sizes.w15,
-              ),
-              child: Text(_inputCodes[i - 1].toString()),
-            ),
-          ),
-        );
-      }
-    }
-    return Padding(
-      padding: EdgeInsets.only(left: Sizes.w35, right: Sizes.w35),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: circles,
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     var circles = <Widget>[];
+//     Color containerColor = MyColors.lightgrey;
+//     for (int i = 1; i <= codeLength!; i++) {
+//       if (i > currentLength!) {
+//         circles.add(
+//           SizedBox(
+//             height: Sizes.w50,
+//             width: Sizes.w50,
+//             child: Container(
+//               decoration: MyDecor().container(
+//                   context: context,
+//                   containerColor: Colors.white,
+//                   curve: Sizes.w15,
+//                   borderColor: containerColor),
+//             ),
+//           ),
+//         );
+//       } else {
+//         circles.add(
+//           SizedBox(
+//             height: Sizes.w50,
+//             width: Sizes.w50,
+//             child: Container(
+//               alignment: Alignment.center,
+//               decoration: MyDecor().container(
+//                 context: context,
+//                 containerColor: containerColor,
+//                 curve: Sizes.w15,
+//               ),
+//               child: Text(_inputCodes[i - 1].toString()),
+//             ),
+//           ),
+//         );
+//       }
+//     }
+//     return Padding(
+//       padding: EdgeInsets.only(left: Sizes.w35, right: Sizes.w35),
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//         children: circles,
+//       ),
+//     );
+//   }
+// }
 
-buildContainerCircle(int number) {
-  return InkWell(
-    child: Container(
-      height: Sizes.w50,
-      width: Sizes.w50,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: Text(
-          number.toString(),
-          style: TextStyle(
-            fontSize: Sizes.w25,
-            fontWeight: FontWeight.normal,
-            color: Colors.black,
-          ),
-        ),
-      ),
+// buildContainerCircle(int number) {
+//   return InkWell(
+//     child: Container(
+//       height: Sizes.w50,
+//       width: Sizes.w50,
+//       decoration: BoxDecoration(
+//         color: Colors.grey.shade100,
+//         shape: BoxShape.circle,
+//       ),
+//       child: Center(
+//         child: Text(
+//           number.toString(),
+//           style: TextStyle(
+//             fontSize: Sizes.w25,
+//             fontWeight: FontWeight.normal,
+//             color: Colors.black,
+//           ),
+//         ),
+//       ),
+//     ),
+//   );
+// }
+
+resetPwd(context) {
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const PasswordReset(),
     ),
   );
 }
