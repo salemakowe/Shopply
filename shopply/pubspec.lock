@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.30"
+  another_telephony:
+    dependency: "direct main"
+    description:
+      name: another_telephony
+      sha256: "58353538faa9098ebb1196d676c71435c7a73e1860480a732ef8c421e8da211f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.4"
   ansicolor:
     dependency: transitive
     description:

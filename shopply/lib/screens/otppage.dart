@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:another_telephony/telephony.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,46 +20,128 @@ class OtpPage extends StatefulWidget {
 }
 
 class _OtpPageState extends State<OtpPage> {
+  bool resendOTP = false;
+  int customSecond = 00;
+  int customMin = 1;
+  late Timer customTimer;
+
+  final Telephony telephony = Telephony.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    customCount();
+  }
+
+  @override
+  void dispose() {
+    customTimer.cancel();
+    super.dispose();
+  }
+
+  String otpExtractor(String otpMessage) {
+    return otpMessage.split(' ')[5].trim();
+  }
+
+  void customCount() {
+    customTimer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (customSecond == 0) {
+          if (customMin != 0) {
+            if (mounted) {
+              setState(() {
+                customMin--;
+                customSecond = 59;
+              });
+            }
+          } else {
+            customTimer.cancel();
+            endTimer();
+          }
+        } else {
+          if (mounted) {
+            setState(() {
+              customSecond--;
+            });
+          }
+        }
+      },
+    );
+  }
+
+  void endTimer() {
+    setState(
+      () {
+        resendOTP = true;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final node = FocusScope.of(context);
     Sizes().heightSizeCalc(context);
     Sizes().widthSizeCalc(context);
     return SafeArea(
       child: PopScope(
         canPop: true,
-        child: Scaffold(
-          body: MediaQuery(
-            data: MediaQuery.of(context).copyWith(
-              padding: const EdgeInsets.all(0),
-              textScaler: TextScaler.linear(textScale),
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(
+                'Reset Password',
+                style: GoogleFonts.poppins(
+                  fontSize: Sizes.w20,
+                ),
+              ),
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.arrow_back_ios_new_outlined),
+              ),
             ),
-            child: Padding(
-              padding: internalPadding(context),
-
-              //start your widget from here
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Text(
-                      'Please enter the OTP code sent to ${widget.email}',
-                      style: GoogleFonts.poppins(),
-                    ),
-                    MyWidget().customDivider(height: Sizes.h20),
-                    Expanded(
-                      // child:
-                      //     NotificationListener<OverscrollIndicatorNotification>(
-                      //   onNotification: (overscroll) {
-                      //     overscroll.disallowIndicator();
-                      //     return true;
-                      //   },
-                      //still giving error
-                      child: OtpTextField(
-                        numberOfFields: 4,
+            body: MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                padding: const EdgeInsets.all(0),
+                textScaler: TextScaler.linear(textScale),
+              ),
+              child: Padding(
+                padding: internalPadding(context),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Please enter the OTP code sent to ${widget.email}',
+                        style: GoogleFonts.poppins(),
                       ),
-                    ),
-                    //),
-                  ],
+                      MyWidget().customDivider(height: Sizes.h20),
+                      OtpTextField(
+                        numberOfFields: 5,
+                        enabledBorderColor: MyColors.lightgrey,
+                        focusedBorderColor: MyColors.mainColor,
+                        showFieldAsBox: true,
+                        fieldWidth: Sizes.w50,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                      MyWidget().customDivider(height: Sizes.h20),
+                      MyWidget().button(
+                        context: context,
+                        proceed: proceed,
+                        buttonColor:
+                            resendOTP ? MyColors.mainColor : Colors.grey[100],
+                        buttonTextSize: Sizes.w15,
+                        buttonTextColor: resendOTP ? Colors.black : Colors.grey,
+                        buttonText:
+                            "I didn't receive the code ($customMin:${customSecond < 10 ? '0' : ''}$customSecond)",
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -70,7 +153,6 @@ class _OtpPageState extends State<OtpPage> {
 }
 
 List _inputCodes = <int>[];
-late Timer customTimer;
 
 class CodePanel extends StatelessWidget {
   final int? codeLength;
@@ -101,9 +183,6 @@ class CodePanel extends StatelessWidget {
           ),
         );
       } else {
-        // print(i);
-        // print(_inputCodes);
-        // print(_inputCodes.last);
         circles.add(
           SizedBox(
             height: Sizes.w50,

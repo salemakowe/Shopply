@@ -17,37 +17,39 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   TextEditingController emailController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   bool isReadonly = true;
+  bool hasError = true;
 
   @override
   Widget build(BuildContext context) {
-    // final node = FocusScope.of(context);
+    final node = FocusScope.of(context);
     Sizes().heightSizeCalc(context);
     Sizes().widthSizeCalc(context);
     return SafeArea(
       child: PopScope(
         canPop: true,
-        child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text(
-              'Reset Password',
-              style: GoogleFonts.poppins(
-                fontSize: Sizes.w20,
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(
+                'Reset Password',
+                style: GoogleFonts.poppins(
+                  fontSize: Sizes.w20,
+                ),
+              ),
+              leading: IconButton(
+                onPressed: () {
+                  // Navigator.pop(context);
+                },
+                icon: const Icon(Icons.arrow_back_ios_new_outlined),
               ),
             ),
-            leading: IconButton(
-              onPressed: () {
-                // Navigator.pop(context);
-              },
-              icon: const Icon(Icons.arrow_back_ios_new_outlined),
-            ),
-          ),
-          body: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: MediaQuery(
+            body: MediaQuery(
               data: MediaQuery.of(context).copyWith(
                 padding: const EdgeInsets.all(0),
                 textScaler: TextScaler.linear(textScale),
@@ -76,16 +78,39 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         ),
                       ),
                       MyWidget().customDivider(height: Sizes.h20),
-                      TextFormField(
-                        controller: emailController,
-                        readOnly: isReadonly,
-                        decoration: MyDecor().form(
-                          context: context,
-                          hinttext: "your email",
-                          hintStyle: GoogleFonts.poppins(
-                            fontSize: Sizes.w13,
-                            color: Colors.black,
+                      Form(
+                        key: formKey,
+                        child: TextFormField(
+                          controller: emailController,
+                          readOnly: isReadonly,
+                          decoration: MyDecor().form(
+                            context: context,
+                            hinttext: "your email",
+                            hintStyle: GoogleFonts.poppins(
+                              fontSize: Sizes.w13,
+                              color: Colors.black,
+                            ),
                           ),
+                          onEditingComplete: node.nextFocus,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              setState(() {
+                                hasError = true;
+                              });
+                              return 'Email cannot be empty';
+                            } else if (!value.contains('@') ||
+                                !value.contains('.com')) {
+                              setState(() {
+                                hasError = true;
+                              });
+                              return 'Invalid email address';
+                            } else {
+                              setState(() {
+                                hasError = false;
+                              });
+                              return null;
+                            }
+                          },
                         ),
                       ),
                       MyWidget().customDivider(height: Sizes.h50),
@@ -96,21 +121,24 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           children: [
                             Expanded(
                               child: MyWidget().button(
-                                  context: context,
-                                  boxHeight: Sizes.h40,
-                                  boxWidth: Sizes.w150,
-                                  buttonText: 'Edit',
-                                  buttonTextSize: Sizes.w18,
-                                  buttonColor: Colors.amber.withOpacity(.7),
-                                  proceed: () {
-                                    setState(() {
+                                context: context,
+                                boxHeight: Sizes.h40,
+                                boxWidth: Sizes.w150,
+                                buttonText: 'Edit',
+                                buttonTextSize: Sizes.w18,
+                                buttonColor: Colors.amber.withOpacity(.7),
+                                proceed: () {
+                                  setState(
+                                    () {
                                       isReadonly = false;
-                                    });
-                                  }),
+                                    },
+                                  );
+                                },
+                              ),
                             ),
                             SizedBox(
-                                width: Sizes
-                                    .w10), // Adjust spacing between buttons
+                              width: Sizes.w10,
+                            ), // Adjust spacing between buttons
                             Expanded(
                               child: MyWidget().button(
                                 context: context,
@@ -119,14 +147,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 buttonText: 'Continue',
                                 buttonTextSize: Sizes.w18,
                                 proceed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => OtpPage(
-                                        email: emailController.text,
+                                  if (formKey.currentState?.validate() ??
+                                      false) {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => OtpPage(
+                                          email: emailController.text,
+                                        ),
                                       ),
-                                    ),
-                                  );
+                                    );
+                                  }
                                 }, // Example for another button
                               ),
                             ),
