@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shopply/constants/mycolors.dart';
 import 'package:shopply/constants/mydecoration.dart';
 import 'package:shopply/constants/myfunctions.dart';
 import 'package:shopply/constants/mysizes.dart';
 import 'package:shopply/constants/mywidgets.dart';
+import 'package:shopply/constants/validator/password_field_validator.dart';
 import 'package:shopply/main.dart';
 
 class PasswordReset extends StatefulWidget {
@@ -19,6 +21,8 @@ class _PasswordResetState extends State<PasswordReset> {
   final formKey = GlobalKey<FormState>();
   bool hasError = true;
   bool _passwordVisible = true;
+  bool _confirmPasswordVisible = true;
+  final FocusNode passwordFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +82,7 @@ class _PasswordResetState extends State<PasswordReset> {
                               controller: newPasswordController,
                               keyboardType: TextInputType.visiblePassword,
                               onEditingComplete: node.nextFocus,
+                              obscureText: true,
                               validator: (value) {},
                               decoration: MyDecor().form(
                                 context: context,
@@ -86,6 +91,20 @@ class _PasswordResetState extends State<PasswordReset> {
                                   Icons.lock_outline,
                                   color: Colors.grey,
                                 ),
+                                suffixicon: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _confirmPasswordVisible =
+                                          !_confirmPasswordVisible;
+                                    });
+                                  },
+                                  child: Icon(
+                                    _confirmPasswordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: Colors.grey,
+                                  ),
+                                ),
                               ),
                             ),
                             MyWidget().customDivider(height: Sizes.h20),
@@ -93,6 +112,7 @@ class _PasswordResetState extends State<PasswordReset> {
                               controller: confirmPasswordController,
                               keyboardType: TextInputType.visiblePassword,
                               onEditingComplete: node.nextFocus,
+                              obscureText: true,
                               validator: (value) {},
                               decoration: MyDecor().form(
                                 context: context,
@@ -102,7 +122,11 @@ class _PasswordResetState extends State<PasswordReset> {
                                   color: Colors.grey,
                                 ),
                                 suffixicon: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    setState(() {
+                                      _passwordVisible = !_passwordVisible;
+                                    });
+                                  },
                                   child: Icon(
                                     _passwordVisible
                                         ? Icons.visibility
@@ -111,6 +135,53 @@ class _PasswordResetState extends State<PasswordReset> {
                                   ),
                                 ),
                               ),
+                            ),
+                            MyWidget().customDivider(height: Sizes.h20),
+
+                            //Password hint
+                            Visibility(
+                              child: Container(
+                                decoration: MyWidget().container(
+                                  context: context,
+                                  containerColor: Colors.grey.withOpacity(.15),
+                                  curve: 10,
+                                ),
+                                child: Padding(
+                                  padding: internalPadding(context),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Password must have : ',
+                                            style: GoogleFonts.poppins(),
+                                          )
+                                        ],
+                                      ),
+                                      MyWidget()
+                                          .customDivider(height: Sizes.h10),
+                                      PasswordFieldValidator(
+                                        minLength: 8,
+                                        uppercaseCharCount: 1,
+                                        lowercaseCharCount: 1,
+                                        numericCharCount: 1,
+                                        specialCharCount: 1,
+                                        defaultColor: Colors.grey,
+                                        successColor: Colors.green,
+                                        failureColor: Colors.red,
+                                        controller: newPasswordController,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            MyWidget().customDivider(height: Sizes.h50),
+                            MyWidget().button(
+                              context: context,
+                              proceed: () {},
+                              buttonText: 'Reset Password',
+                              buttonTextSize: Sizes.w18,
                             ),
                           ],
                         ),

@@ -145,6 +145,35 @@ class MyWidget {
       width: width ?? 1,
     );
   }
+
+  container({
+    Color? containerColor,
+    double? curve,
+    Color? borderColor,
+    BoxFit? boxFit,
+    String? backgroundimage,
+    BorderRadius? borderRadius,
+    @required BuildContext? context,
+  }) {
+    double size = MediaQuery.of(context!).size.width;
+    double w5 = size * .0118;
+    return BoxDecoration(
+      border: Border.all(
+        color: borderColor ?? Colors.transparent,
+      ),
+      color: containerColor ?? MyColors.lightgrey,
+      image: backgroundimage != null
+          ? DecorationImage(
+              image: AssetImage(backgroundimage),
+              fit: boxFit ?? BoxFit.cover,
+            )
+          : null,
+      borderRadius: borderRadius ??
+          BorderRadius.all(
+            Radius.circular(curve ?? w5),
+          ),
+    );
+  }
 }
 
 proceed() {}
