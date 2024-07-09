@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shopply/constants/mycolors.dart';
 import 'package:shopply/constants/mydecoration.dart';
 import 'package:shopply/constants/mysizes.dart';
@@ -65,44 +66,52 @@ class MyWidget {
     );
   }
 
-  loadingDiag() {
-    return PopScope(
-      canPop: false,
-      child: Container(
-        color: Colors.black.withOpacity(.7),
-        child: AlertDialog(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          contentPadding: const EdgeInsets.all(0),
-          insetPadding: const EdgeInsets.symmetric(horizontal: 130),
-          shape: const RoundedRectangleBorder(
-            side: BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
-            ),
-          ),
-          content: SizedBox(
-            height: Sizes.h150,
-            width: Sizes.h150,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SpinKitFadingCube(
-                  color: Colors.white,
-                  size: 30,
+  showLoading(context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return PopScope(
+          canPop: false,
+          child: Container(
+            color: Colors.black.withOpacity(.7),
+            child: AlertDialog(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              contentPadding: const EdgeInsets.all(0),
+              insetPadding: const EdgeInsets.symmetric(horizontal: 130),
+              shape: const RoundedRectangleBorder(
+                side: BorderSide(color: Colors.transparent),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
                 ),
-                customDivider(height: Sizes.h25),
-                Text(
-                  'please wait ...',
-                  style: MyDecor()
-                      .textstyle(fontcolor: Colors.white, fontsize: Sizes.w15),
-                )
-              ],
+              ),
+              content: SizedBox(
+                height: Sizes.h150,
+                width: Sizes.h150,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SpinKitFadingCube(
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    MyWidget().customDivider(height: Sizes.h25),
+                    Text(
+                      'please wait ...',
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: Sizes.w18,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

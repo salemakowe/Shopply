@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shopply/constants/mycolors.dart';
 import 'package:shopply/constants/mydecoration.dart';
 import 'package:shopply/constants/myfunctions.dart';
 import 'package:shopply/constants/mysizes.dart';
@@ -47,7 +46,9 @@ class _PasswordResetState extends State<PasswordReset> {
                 ),
               ),
               leading: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 icon: const Icon(Icons.arrow_back_ios_new_outlined),
               ),
             ),
@@ -140,6 +141,7 @@ class _PasswordResetState extends State<PasswordReset> {
 
                             //Password hint
                             Visibility(
+                              visible: newPasswordController.text.isNotEmpty,
                               child: Container(
                                 decoration: MyWidget().container(
                                   context: context,

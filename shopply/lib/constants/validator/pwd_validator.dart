@@ -4,7 +4,8 @@ enum Validation {
   uppercase,
   lowercase,
   numericCharacter,
-  specialCharacter
+  specialCharacter,
+  passwordMatch,
 }
 
 //String Validator
@@ -14,6 +15,8 @@ class StringValidation {
   static const lowercase = 'At least one lowercase character';
   static const numericCharacter = 'At least one numeric character';
   static const specialCharacter = 'At least one special character';
+  static const passwordMatch =
+      'Your new password must be the same with y=the confirm password';
 }
 
 //Validator message
@@ -23,6 +26,7 @@ final Map<Validation, String> validatorMessage = {
   Validation.lowercase: StringValidation.lowercase,
   Validation.numericCharacter: StringValidation.numericCharacter,
   Validation.specialCharacter: StringValidation.specialCharacter,
+  Validation.passwordMatch: StringValidation.passwordMatch,
 };
 
 //Validator
@@ -58,6 +62,10 @@ class Validator {
     String pattern = r"^(.*?[$&+,\:;/=?@#|'<>.^*()_%!-]){" +
         specialCharactersCount.toString() +
         ",}";
-    return password.contains(RegExp(pattern));
+
+    //Checks is the passwords match
+    return password.contains(
+      RegExp(pattern),
+    );
   }
 }

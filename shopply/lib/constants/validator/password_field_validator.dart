@@ -20,24 +20,26 @@ class PasswordFieldValidator extends StatefulWidget {
   final String? numericCharMessage;
   final String? specialCharacterMessage;
 
-  const PasswordFieldValidator(
-      {super.key,
-      required this.minLength,
-      required this.uppercaseCharCount,
-      required this.lowercaseCharCount,
-      required this.numericCharCount,
-      required this.specialCharCount,
-      required this.defaultColor,
-      required this.successColor,
-      required this.failureColor,
-      required this.controller,
-      this.minLengthMessage,
-      this.uppercaseCharMessage,
-      this.lowercaseMessage,
-      this.numericCharMessage,
-      this.specialCharacterMessage});
+  const PasswordFieldValidator({
+    super.key,
+    required this.minLength,
+    required this.uppercaseCharCount,
+    required this.lowercaseCharCount,
+    required this.numericCharCount,
+    required this.specialCharCount,
+    required this.defaultColor,
+    required this.successColor,
+    required this.failureColor,
+    required this.controller,
+    this.minLengthMessage,
+    this.uppercaseCharMessage,
+    this.lowercaseMessage,
+    this.numericCharMessage,
+    this.specialCharacterMessage,
+  });
 
   @override
+  // ignore: library_private_types_in_public_api
   _PasswordFieldValidatorState createState() => _PasswordFieldValidatorState();
 }
 
@@ -48,6 +50,7 @@ class _PasswordFieldValidatorState extends State<PasswordFieldValidator> {
     Validation.lowercase: false,
     Validation.numericCharacter: false,
     Validation.specialCharacter: false,
+    Validation.passwordMatch: false,
   };
 
   late bool isFirstRun;
@@ -80,10 +83,17 @@ class _PasswordFieldValidatorState extends State<PasswordFieldValidator> {
       widget.specialCharCount,
     );
 
+    // _selectedCondition[Validation.passwordMatch] =
+    //     _passwordMatch(widget.controller.text);
+
     setState(() {
       return;
     });
   }
+
+  // bool _passwordMatch(String confirmPassword) {
+  //   return confirmPassword == newPasswordController.text;
+  // }
 
   @override
   void initState() {
@@ -106,7 +116,9 @@ class _PasswordFieldValidatorState extends State<PasswordFieldValidator> {
           conditionValue = widget.minLength;
           conditionMessage = widget.minLengthMessage ??
               validatorMessage.entries
-                  .firstWhere((element) => element.key == Validation.atLeast)
+                  .firstWhere(
+                    (element) => element.key == Validation.atLeast,
+                  )
                   .value
                   .toString();
         }
@@ -114,7 +126,9 @@ class _PasswordFieldValidatorState extends State<PasswordFieldValidator> {
           conditionValue = widget.uppercaseCharCount;
           conditionMessage = widget.uppercaseCharMessage ??
               validatorMessage.entries
-                  .firstWhere((element) => element.key == Validation.uppercase)
+                  .firstWhere(
+                    (element) => element.key == Validation.uppercase,
+                  )
                   .value
                   .toString();
         }
@@ -122,7 +136,9 @@ class _PasswordFieldValidatorState extends State<PasswordFieldValidator> {
           conditionValue = widget.lowercaseCharCount;
           conditionMessage = widget.lowercaseMessage ??
               validatorMessage.entries
-                  .firstWhere((element) => element.key == Validation.lowercase)
+                  .firstWhere(
+                    (element) => element.key == Validation.lowercase,
+                  )
                   .value
                   .toString();
         }
@@ -131,7 +147,8 @@ class _PasswordFieldValidatorState extends State<PasswordFieldValidator> {
           conditionMessage = widget.numericCharMessage ??
               validatorMessage.entries
                   .firstWhere(
-                      (element) => element.key == Validation.numericCharacter)
+                    (element) => element.key == Validation.numericCharacter,
+                  )
                   .value
                   .toString();
         }
@@ -140,9 +157,13 @@ class _PasswordFieldValidatorState extends State<PasswordFieldValidator> {
           conditionMessage = widget.specialCharacterMessage ??
               validatorMessage.entries
                   .firstWhere(
-                      (element) => element.key == Validation.specialCharacter)
+                    (element) => element.key == Validation.specialCharacter,
+                  )
                   .value
                   .toString();
+        }
+        if (entry.key == Validation.passwordMatch) {
+          conditionMessage = validatorMessage[Validation.passwordMatch]!;
         }
         return ValidatorItemWidget(
           conditionMessage,

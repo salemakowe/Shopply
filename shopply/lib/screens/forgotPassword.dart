@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shopply/constants/mycolors.dart';
 import 'package:shopply/constants/mydecoration.dart';
 import 'package:shopply/constants/myfunctions.dart';
 import 'package:shopply/constants/mysizes.dart';
@@ -151,7 +150,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 proceed: () {
                                   if (formKey.currentState?.validate() ??
                                       false) {
-                                    Navigator.pushReplacement(
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => OtpPage(

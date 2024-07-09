@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopply/constants/mycolors.dart';
-import 'package:shopply/constants/mydecoration.dart';
 import 'package:shopply/constants/myfunctions.dart';
 import 'package:shopply/constants/mysizes.dart';
 import 'package:shopply/constants/mywidgets.dart';
@@ -25,6 +24,7 @@ class _OtpPageState extends State<OtpPage> {
   int customSecond = 00;
   int customMin = 1;
   late Timer customTimer;
+  String otpInput = '';
 
   final Telephony telephony = Telephony.instance;
 
@@ -127,8 +127,28 @@ class _OtpPageState extends State<OtpPage> {
                         focusedBorderColor: MyColors.mainColor,
                         showFieldAsBox: true,
                         fieldWidth: Sizes.w50,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0)),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
+                        onSubmit: (String value) {
+                          setState(() {
+                            otpInput = value;
+                          });
+
+                          //Navigate to password reset page
+                          if (otpInput.length == 5) {
+                            MyWidget().showLoading(context);
+                            Future.delayed(const Duration(seconds: 3), () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const PasswordReset(),
+                                ),
+                              );
+                            });
+                          }
+                        },
                       ),
                       MyWidget().customDivider(height: Sizes.h30),
                       Padding(
@@ -157,13 +177,20 @@ class _OtpPageState extends State<OtpPage> {
                               child: MyWidget().button(
                                 context: context,
                                 proceed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const PasswordReset(),
-                                    ),
-                                  );
+                                  if (otpInput.isEmpty) {
+                                    MyWidget().snackalert(
+                                      context,
+                                      'Kindly enter the OTP code sent.',
+                                    );
+                                  } else {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const PasswordReset(),
+                                      ),
+                                    );
+                                  }
                                 },
                                 buttonTextSize: Sizes.w15,
                                 buttonText: 'Reset password',

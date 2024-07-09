@@ -9,9 +9,7 @@ import 'package:shopply/constants/myfunctions.dart';
 import 'package:shopply/constants/mysizes.dart';
 import 'package:shopply/constants/mywidgets.dart';
 import 'package:shopply/main.dart';
-import 'package:shopply/screens/dashboard.dart';
 import 'package:shopply/screens/forgotPassword.dart';
-import 'package:shopply/screens/otppage.dart';
 import 'package:shopply/screens/signup.dart';
 
 class LoginPage extends StatefulWidget {
